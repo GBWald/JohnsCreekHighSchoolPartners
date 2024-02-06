@@ -63,6 +63,7 @@ namespace JohnsCreekHighSchoolPartners.Infrastructure.Repositories
         {
             try
             {
+                //var partner = await context.Partners.FirstOrDefaultAsync(e => e.Id == id);
                 var partner = await context.Partners.FindAsync(id);
                 return partner;
             }
