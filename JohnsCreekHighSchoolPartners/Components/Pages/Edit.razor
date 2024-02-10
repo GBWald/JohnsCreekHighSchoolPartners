@@ -1,4 +1,4 @@
-﻿@page "/edit/{id:int}"
+﻿@page "/edit/{PartnaId:int}"
 @inject IPartnerRepository Repository
 @inject NavigationManager Navigation
 
@@ -7,7 +7,7 @@
 {
     <div class="row justify-content-center">
         <div class="col-6">
-            <EditForm method="post" FormName="EditBook" OnValidSubmit="EditPartna" Model="Partner" autocomplete="off">
+            <EditForm method="post" FormName="EditPartner" OnValidSubmit="EditPartna" Model="Partner" autocomplete="off">
                 <input type="hidden" name="Partner.Id" value="@Partner.Id" />
                 <div class="mb-3">
                     <label for="name" class="label">
@@ -37,23 +37,18 @@
                     <InputDate id="outDate" @bind-Value="Partner.ClosingDate" class="input-form" />
                 </div>
                 <div class="mb-3">
-
                     <label for="priCon" class="label">
                         Primary Contact
                     </label>
                     <InputText id="priCon" @bind-Value="Partner.ContactPrimary" class="input-form" />
-
                 </div>
                 <div class="mb-3">
-
                     <label for="secCon" class="label">
                         Secondary Contact
                     </label>
                     <InputText id="secCon" @bind-Value="Partner.ContactSecondary" class="input-form" />
                 </div>
-
                 <div class="mb-3">
-
                     <label for="CompanyType" class="label">
                         Type of Company
                     </label>
@@ -83,14 +78,14 @@
 }
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int PartnaId { get; set; }
 
     [SupplyParameterFromForm]
     public Partner? Partner { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Partner ??= await Repository.GetById(Id);
+        Partner ??= await Repository.GetById(PartnaId);
 
     }
 

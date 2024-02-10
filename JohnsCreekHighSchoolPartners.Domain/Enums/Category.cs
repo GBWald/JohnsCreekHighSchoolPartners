@@ -2,6 +2,6 @@
 {
     public enum Category
     {
-        Tech,Food,Clothes,Sanitary,Health,Housing,Charity,
+        Tech=1,Food,Clothes,Sanitary,Health,Housing,Charity,
     }
 }

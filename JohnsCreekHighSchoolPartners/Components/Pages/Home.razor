@@ -1,0 +1,162 @@
+﻿@using System.Linq
+@page "/"
+@inject IPartnerRepository Repository 
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>
+    Partner List
+</PageTitle>
+
+
+
+<div class="create">
+    <a href="@("/add")" class="btn btn-info">Create</a>
+</div>
+
+<div class="search">
+    <input />
+    <button>submit</button>
+</div>
+
+<div class="sort">
+    <InputSelect @bind-Value="Sorter">
+        <option value="Id Decsending">Id Decsending</option>
+        <option value="Id Acsending">Id Acsending</option>
+
+    </InputSelect>
+    <button @onclick="Sorta" >sort</button>
+</div>
+
+
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>SigningDate</th>
+            <th>ClosingDate</th>
+            <th>ContactPrimary</th>
+            <th>ContactSecondary</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    
+    @if (partners is not null)
+    {
+        @if (partnersB is not null)
+        {
+            @if (sortion)
+            {
+                <tbody>
+                    @foreach (var partner in partners)
+                    {
+
+                        <tr>
+                            <td>@partner.Id</td>
+                            <td>@partner.Name</td>
+                            <td>@partner.Description</td>
+                            <td>@partner.SigningDate.ToString()</td>
+                            <td>@partner.ClosingDate.ToString()</td>
+                            <td>@partner.ContactPrimary</td>
+                            <td>@partner.ContactSecondary</td>
+                            <td>@partner.Category</td>
+                            <td>
+                                <button class="btn btn-danger" @onclick="(() => DeletePartna(partner))">DeletePartna</button>
+                                <a href="@($"/edit/{partner.Id}")" class="btn btn-warning">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            }
+            else
+            {
+                <tbody>
+                    @foreach (var partner in partnersB)
+                    {
+
+                        <tr>
+                            <td>@partner.Id</td>
+                            <td>@partner.Name</td>
+                            <td>@partner.Description</td>
+                            <td>@partner.SigningDate.ToString()</td>
+                            <td>@partner.ClosingDate.ToString()</td>
+                            <td>@partner.ContactPrimary</td>
+                            <td>@partner.ContactSecondary</td>
+                            <td>@partner.Category</td>
+                            <td>
+                                <button class="btn btn-danger" @onclick="(() => DeletePartna(partner))">DeletePartna</button>
+                                <a href="@($"/edit/{partner.Id}")" class="btn btn-warning">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            }
+        }
+        else
+        {
+            <tbody>
+                <tr>
+                    <td>0 Partners :(</td>
+                </tr>
+            </tbody>
+            
+        }
+    }
+    else
+    {
+        <tbody>
+            <tr>
+                <td>0 Partners :(</td>
+            </tr>
+        </tbody>
+    }
+</table>
+          
+
+
+
+@code {
+    public string Sorter { get; set; } = string.Empty;
+
+    public bool sortion { get; set; } = true;
+
+
+
+    private List<Partner>? partners;
+    private List<Partner>? partnersB;
+
+    protected override async Task OnInitializedAsync()
+    {
+        partnersB = await Repository.GetAllReversed();
+        partners = await Repository.GetAll();
+    }
+
+    private async Task DeletePartna (Partner partner)
+    {
+        await Repository.Delete(partner.Id);
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+
+    public void Sorta()
+    {
+        if (Sorter == "Id Decsending")
+        {
+            sortion = false;
+        }
+        else if (Sorter == "Id Acsending")
+        {
+            sortion = true;
+
+        }
+
+    }
+
+
+
+
+}
+

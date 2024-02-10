@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JohnsCreekHighSchoolPartners.Infrastructure.Repositories
 {
-    public class PartnerRepository: IPartnerRepository
+    public class PartnerRepository : IPartnerRepository
     {
         private readonly JohnsCreekHighSchoolPartnersDbContext context;
 
         public PartnerRepository(IDbContextFactory<JohnsCreekHighSchoolPartnersDbContext> factory)
         {
             context = factory.CreateDbContext();
-            
+
         }
 
         public async Task Create(Partner partner)
@@ -51,7 +51,20 @@ namespace JohnsCreekHighSchoolPartners.Infrastructure.Repositories
             {
                 var partners = await context.Partners.ToListAsync();
                 return partners;
-                
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<List<Partner>> GetAllReversed()
+        {
+            try
+            {
+                var partners = await context.Partners.ToListAsync();
+                partners.Reverse();
+                return partners;
             }
             catch (Exception)
             {
