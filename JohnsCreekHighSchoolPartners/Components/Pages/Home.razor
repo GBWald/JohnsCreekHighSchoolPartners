@@ -15,8 +15,8 @@
 </div>
 
 <div class="search">
-    <input />
-    <button>submit</button>
+    <InputText @bind-Value="Searcher"></InputText>
+    <button @onclick="FindStuff">submit</button>
 </div>
 
 <div class="sort">
@@ -44,17 +44,44 @@
             <th>Actions</th>
         </tr>
     </thead>
-    
     @if (partners is not null)
     {
         @if (partnersB is not null)
         {
-            @if (sortion)
+            @if (Found)
+            {
+                @foreach (var partner in partners)
+                {
+                    @if (partner.Name == Searcher)
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@partner.Id</td>
+                                <td>@partner.Name</td>
+                                <td>@partner.Description</td>
+                                <td>@partner.SigningDate.ToString()</td>
+                                <td>@partner.ClosingDate.ToString()</td>
+                                <td>@partner.ContactPrimary</td>
+                                <td>@partner.ContactSecondary</td>
+                                <td>@partner.Category</td>
+                                <td>
+                                    <button class="btn btn-danger" @onclick="(() => DeletePartna(partner))">DeletePartna</button>
+                                    <a href="@($"/edit/{partner.Id}")" class="btn btn-warning">Edit</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                    else
+                    {
+                        Found = false;
+                    }
+                }
+            }
+            else if (Sortion)
             {
                 <tbody>
                     @foreach (var partner in partners)
                     {
-
                         <tr>
                             <td>@partner.Id</td>
                             <td>@partner.Name</td>
@@ -77,7 +104,6 @@
                 <tbody>
                     @foreach (var partner in partnersB)
                     {
-
                         <tr>
                             <td>@partner.Id</td>
                             <td>@partner.Name</td>
@@ -103,7 +129,6 @@
                     <td>0 Partners :(</td>
                 </tr>
             </tbody>
-            
         }
     }
     else
@@ -122,7 +147,11 @@
 @code {
     public string Sorter { get; set; } = string.Empty;
 
-    public bool sortion { get; set; } = true;
+    public bool Sortion { get; set; } = true;
+
+    public string Searcher { get; set; } = string.Empty;
+
+    public bool Found { get; set; } = false;
 
 
 
@@ -145,14 +174,19 @@
     {
         if (Sorter == "Id Decsending")
         {
-            sortion = false;
+            Sortion = false;
         }
         else if (Sorter == "Id Acsending")
         {
-            sortion = true;
+            Sortion = true;
 
         }
 
+    }
+
+    public void FindStuff()
+    {
+        Found = true;
     }
 
 
