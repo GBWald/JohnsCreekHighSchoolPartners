@@ -1,16 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
+
 <div class="page">
     <main>
-        <div class="top-row px-4">
+        <!--This is the top menu-->
+        <div class="top-row px-5">
             <TopMenu/>
        </div>
+        <!--This is where the main content is going to appear-->
        <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
 
+<!--This is the error page-->
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>

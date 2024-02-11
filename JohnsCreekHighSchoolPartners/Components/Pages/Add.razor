@@ -4,81 +4,61 @@
 
 <PageTitle>Add Partner</PageTitle>
 
+<div class="addForm">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <EditForm method="post" FormName="AddPartner" OnValidSubmit="AddPartna" Model="Partner" autocomplete="off">
+                <div class="addFormWrapper">
+                    <h1>Add New Partner</h1>
+                    <div class="mb-3">
+                        <label for="name" class="label">Company Name</label>
+                        <InputText id="name" @bind-Value="Partner.Name" class="form-control shadow-none" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="label">Description</label>
+                        <InputText id="description" @bind-Value="Partner.Description" class="form-control shadow-none" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="inDate" class="label">Signing Date</label>
+                        <InputDate id="inDate" @bind-Value="Partner.SigningDate" class="form-control shadow-none" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="outDate" class="label">Closing Date</label>
+                        <InputDate id="outDate" @bind-Value="Partner.ClosingDate" class="form-control shadow-none" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="priCon" class="label">Primary Contact</label>
+                        <InputText id="priCon" @bind-Value="Partner.ContactPrimary" class="form-control shadow-none" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="secCon" class="label">Secondary Contact</label>
+                        <InputText id="secCon" @bind-Value="Partner.ContactSecondary" class="form-control shadow-none" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="CompanyType" class="label">Type of Company</label>
+                        <InputSelect id="CompanyType" @bind-Value="Partner.Category" class="form-control shadow-none">
+                            <option value="0"> Select Company Type</option>
+                            @foreach (var comType in Enum.GetValues(typeof(Category)))
+                            {
+                                <option value="@comType">
+                                    @comType.ToString()
+                                </option>
+                            }
+                        </InputSelect>
+                    </div>
 
+                    <div class="addBtn">
+                        <button class="btn btn-primary">
+                            Add
+                        </button>
+                    </div>
+                </div>
 
-
-<div class="row justify-content-center">
-    <div class="col-6">
-    <EditForm method="post" FormName="AddPartner" OnValidSubmit="AddPartna" Model="Partner" autocomplete="off">
-        <div class="mb-3">
-            <label for="name" class="label">
-                Company Name
-            </label>
-            <InputText id="name" @bind-Value="Partner.Name" class="input-form" />
+                <!--Validating User Input-->
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+            </EditForm>
         </div>
-        <div class="mb-3">
-            <label for="description" class="label">
-                Description
-            </label>
-        
-            <InputText id="description" @bind-Value="Partner.Description" class="input-form" />
-        </div>
-        <div class="mb-3">
-
-            <label for="inDate" class="label">
-                Signing Date
-            </label>
-            <InputDate id="inDate" @bind-Value="Partner.SigningDate" class="input-form" />
-        </div>
-        <div class="mb-3">
-
-            <label for="outDate" class="label">
-                Closing Date
-            </label>
-            <InputDate id="outDate" @bind-Value="Partner.ClosingDate" class="input-form" />
-        </div>
-        <div class="mb-3">
-
-            <label for="priCon" class="label">
-                Primary Contact
-            </label>
-            <InputText id="priCon" @bind-Value="Partner.ContactPrimary" class="input-form" />
-
-        </div>
-        <div class="mb-3">
-
-            <label for="secCon" class="label">
-                Secondary Contact
-            </label>
-            <InputText id="secCon" @bind-Value="Partner.ContactSecondary" class="input-form" />
-        </div>
-
-        <div class="mb-3">
-
-            <label for="CompanyType" class="label">
-                Type of Company
-            </label>
-            <InputSelect id="CompanyType" @bind-Value="Partner.Category" class="input-form">
-                <option value="0">
-                    Select Company Type
-                </option>
-                @foreach (var comType in Enum.GetValues(typeof(Category)))
-                {
-                    <option value="@comType">
-                        @comType.ToString()
-                    </option>
-                }
-            </InputSelect>
-        </div>
-
-        <div class="addBtn">
-            <button class="btnAdd">
-                Add
-            </button>
-        </div>
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-    </EditForm>
     </div>
 </div>
 
@@ -87,6 +67,7 @@
     [SupplyParameterFromForm]
     public Partner Partner { get; set; } = new();
 
+    <!--Method that adds the new partner and navigates to home afterwards-->
     private async Task AddPartna()
     {
         await Repository.Create(Partner);
