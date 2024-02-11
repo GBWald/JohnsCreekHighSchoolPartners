@@ -1,7 +1,26 @@
-﻿body {
-}
-
-.button {
-    justify-content: space-between
+﻿* {
+    padding: 0;
+    margin: 0;
+    font-family: monospace;
     
 }
+
+.top {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.search {
+}
+
+.sorter {
+
+   margin-left: 150px;
+
+}
+
+
+
+
+
+

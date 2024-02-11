@@ -8,26 +8,20 @@
     Partner List
 </PageTitle>
 
+<div class="top">
+    <div class="search">
+        <InputText placeholder ="Search" @bind-Value="Searcher"></InputText>
+        <button @onclick="FindStuff" class="btn btn-secondary">Search</button>
+    </div>
 
-
-<div class="create">
-    <a href="@("/add")" class="btn btn-info">Create</a>
+    <div class="sorter">
+        <InputSelect @bind-Value="Sorter">
+            <option value="" disabled selected>Sort by...</option>
+            <option value="Id Decsending">Id Decsending</option>
+            <option value="Id Acsending">Id Acsending</option>
+        </InputSelect>
+    </div>
 </div>
-
-<div class="search">
-    <InputText @bind-Value="Searcher"></InputText>
-    <button @onclick="FindStuff">submit</button>
-</div>
-
-<div class="sort">
-    <InputSelect @bind-Value="Sorter">
-        <option value="Id Decsending">Id Decsending</option>
-        <option value="Id Acsending">Id Acsending</option>
-
-    </InputSelect>
-    <button @onclick="Sorta" >sort</button>
-</div>
-
 
 
 <table class="table table-bordered table-striped">
@@ -65,7 +59,7 @@
                                 <td>@partner.ContactSecondary</td>
                                 <td>@partner.Category</td>
                                 <td>
-                                    <button class="btn btn-danger" @onclick="(() => DeletePartna(partner))">DeletePartna</button>
+                                    <button class="btn btn-danger" @onclick="(() => DeletePartna(partner))">Delete</button>
                                     <a href="@($"/edit/{partner.Id}")" class="btn btn-warning">Edit</a>
                                 </td>
                             </tr>
@@ -76,30 +70,9 @@
                         Found = false;
                     }
                 }
+
             }
-            else if (Sortion)
-            {
-                <tbody>
-                    @foreach (var partner in partners)
-                    {
-                        <tr>
-                            <td>@partner.Id</td>
-                            <td>@partner.Name</td>
-                            <td>@partner.Description</td>
-                            <td>@partner.SigningDate.ToString()</td>
-                            <td>@partner.ClosingDate.ToString()</td>
-                            <td>@partner.ContactPrimary</td>
-                            <td>@partner.ContactSecondary</td>
-                            <td>@partner.Category</td>
-                            <td>
-                                <button class="btn btn-danger" @onclick="(() => DeletePartna(partner))">DeletePartna</button>
-                                <a href="@($"/edit/{partner.Id}")" class="btn btn-warning">Edit</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            }
-            else
+            else if (Sorter == "Id Decsending")
             {
                 <tbody>
                     @foreach (var partner in partnersB)
@@ -121,23 +94,29 @@
                     }
                 </tbody>
             }
+            else
+            {
+                <tbody>
+                    @foreach (var partner in partners)
+                    {
+                        <tr>
+                            <td>@partner.Id</td>
+                            <td>@partner.Name</td>
+                            <td>@partner.Description</td>
+                            <td>@partner.SigningDate.ToString()</td>
+                            <td>@partner.ClosingDate.ToString()</td>
+                            <td>@partner.ContactPrimary</td>
+                            <td>@partner.ContactSecondary</td>
+                            <td>@partner.Category</td>
+                            <td>
+                                <button class="btn btn-danger" @onclick="(() => DeletePartna(partner))">Delete</button>
+                                <a href="@($"/edit/{partner.Id}")" class="btn btn-warning">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            }
         }
-        else
-        {
-            <tbody>
-                <tr>
-                    <td>0 Partners :(</td>
-                </tr>
-            </tbody>
-        }
-    }
-    else
-    {
-        <tbody>
-            <tr>
-                <td>0 Partners :(</td>
-            </tr>
-        </tbody>
     }
 </table>
           
@@ -146,8 +125,6 @@
 
 @code {
     public string Sorter { get; set; } = string.Empty;
-
-    public bool Sortion { get; set; } = true;
 
     public string Searcher { get; set; } = string.Empty;
 
@@ -168,20 +145,6 @@
     {
         await Repository.Delete(partner.Id);
         Navigation.NavigateTo("/", forceLoad: true);
-    }
-
-    public void Sorta()
-    {
-        if (Sorter == "Id Decsending")
-        {
-            Sortion = false;
-        }
-        else if (Sorter == "Id Acsending")
-        {
-            Sortion = true;
-
-        }
-
     }
 
     public void FindStuff()

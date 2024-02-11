@@ -1,21 +1,46 @@
-﻿body {
+﻿* {
+    display: flex;
 }
 
 .title {
     margin-left: 0px;
-    margin-right: 350px;
-    padding: 25px;
-    justify-content: space-between;
+    margin-right: 1250px;
+    margin-top: 10px;
+    margin-bottom: auto;
+    font-size: 20px;
+    text-shadow: 2px 2px #858585; 
+
 }
+
 .help {
     margin: 25px;
-    padding: 25px;
-    justify-content: space-between;
+
 }
+
+    .help a {
+        height: 35px;
+        border-radius: 10px;
+        float: right;
+    }
+
 .home {
     margin: 25px;
-    padding: 25px;
-    justify-content: space-between;
+
 }
 
+    .home a {
+        height: 35px;
+        border-radius: 10px;
+        float: right
+    }
 
+
+.create {
+    margin: 25px;
+}
+
+    .create a {
+        height: 35px;
+        border-radius: 10px;
+        float: right
+    }
