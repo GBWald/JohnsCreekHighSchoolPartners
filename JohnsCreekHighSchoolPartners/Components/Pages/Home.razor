@@ -1,6 +1,6 @@
-﻿@using System.Linq
+﻿﻿@using System.Linq
 @page "/"
-@inject IPartnerRepository Repository 
+@inject IPartnerRepository Repository
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
@@ -10,8 +10,8 @@
 
 <div class="top">
     <div class="search">
-        <InputText placeholder ="Search" @bind-Value="Searcher"></InputText>
-        <button @onclick="FindStuff" class="btn btn-secondary">Search</button>
+        <InputText placeholder="Search" @bind-Value="Searcher"></InputText>
+        <button @onclick="FindStuff" class="btn btn-primary">Search</button>
     </div>
 
     <div class="sorter">
@@ -40,7 +40,7 @@
     </thead>
     @if (partners is not null)
     {
-        @if (partnersB is not null)
+        @if (partnersReverse is not null)
         {
             @if (Found)
             {
@@ -75,7 +75,7 @@
             else if (Sorter == "Id Decsending")
             {
                 <tbody>
-                    @foreach (var partner in partnersB)
+                    @foreach (var partner in partnersReverse)
                     {
                         <tr>
                             <td>@partner.Id</td>
@@ -119,7 +119,7 @@
         }
     }
 </table>
-          
+
 
 
 
@@ -133,15 +133,15 @@
 
 
     private List<Partner>? partners;
-    private List<Partner>? partnersB;
+    private List<Partner>? partnersReverse;
 
     protected override async Task OnInitializedAsync()
     {
-        partnersB = await Repository.GetAllReversed();
+        partnersReverse = await Repository.GetAllReversed();
         partners = await Repository.GetAll();
     }
 
-    private async Task DeletePartna (Partner partner)
+    private async Task DeletePartna(Partner partner)
     {
         await Repository.Delete(partner.Id);
         Navigation.NavigateTo("/", forceLoad: true);
@@ -155,5 +155,4 @@
 
 
 
-}
-
+}                       

@@ -3,17 +3,25 @@
 @inject NavigationManager Navigation
 
 <PageTitle>Edit Partner</PageTitle>
-@if(Partner is not null)
+
+<!-- if the partner exist in the database allow the user to make changes -->
+@if (Partner is not null)
 {
     <div class="row justify-content-center">
         <div class="col-6">
+
+            <!-- using edit form to commit changes into our database -->
             <EditForm method="post" FormName="EditPartner" OnValidSubmit="EditPartna" Model="Partner" autocomplete="off">
                 <h1>Edit Partner</h1>
+
+                <!-- automatic id inputted -->
                 <input type="hidden" name="Partner.Id" value="@Partner.Id" />
                 <div class="mb-3">
                     <label for="name" class="label">
                         Company Name
                     </label>
+
+                    <!-- user input -->
                     <InputText id="name" @bind-Value="Partner.Name" class="form-control shadow-none" />
                 </div>
                 <div class="mb-3">
@@ -21,42 +29,55 @@
                         Description
                     </label>
 
+                    <!-- user input -->
                     <InputText id="description" @bind-Value="Partner.Description" class="form-control shadow-none" />
                 </div>
                 <div class="mb-3">
-
                     <label for="inDate" class="label">
                         Signing Date
                     </label>
+
+                    <!-- user input -->
                     <InputDate id="inDate" @bind-Value="Partner.SigningDate" class="form-control shadow-none" />
                 </div>
                 <div class="mb-3">
-
                     <label for="outDate" class="label">
                         Closing Date
                     </label>
+
+                    <!-- user input -->
                     <InputDate id="outDate" @bind-Value="Partner.ClosingDate" class="form-control shadow-nonem" />
                 </div>
                 <div class="mb-3">
                     <label for="priCon" class="label">
                         Primary Contact
                     </label>
+
+                    <!-- user input -->
                     <InputText id="priCon" @bind-Value="Partner.ContactPrimary" class="form-control shadow-none" />
                 </div>
                 <div class="mb-3">
                     <label for="secCon" class="label">
                         Secondary Contact
                     </label>
+
+                    <!-- user input -->
                     <InputText id="secCon" @bind-Value="Partner.ContactSecondary" class="form-control shadow-none" />
                 </div>
                 <div class="mb-3">
                     <label for="CompanyType" class="label">
                         Type of Company
                     </label>
+
+                    <!-- user selects between options -->
                     <InputSelect id="CompanyType" @bind-Value="Partner.Category" class="form-control shadow-none">
+
+                        <!-- default value acts as a placeholder -->
                         <option value="0">
                             Select Company Type
                         </option>
+
+                        <!-- loops through each option in the category file -->
                         @foreach (var comType in Enum.GetValues(typeof(Category)))
                         {
                             <option value="@comType">
@@ -66,7 +87,8 @@
                     </InputSelect>
                 </div>
 
-                <div class="addBtn">
+                <!-- button to commit all the new changes to the database -->
+                <div class="editBtn">
                     <button class="btn btn-primary">
                         Edit
                     </button>
@@ -78,26 +100,34 @@
     </div>
 }
 @code {
+    //Parameter to get the id
     [Parameter]
     public int PartnaId { get; set; }
 
+    //Supplying the form with a specific partner
     [SupplyParameterFromForm]
     public Partner? Partner { get; set; }
 
+
     protected override async Task OnInitializedAsync()
     {
+        //If partner is null find which partner it is by using GetById
         Partner ??= await Repository.GetById(PartnaId);
 
     }
 
+    <!-- UPDATE in CRUD function -->
     private async Task EditPartna()
     {
         if (Partner is not null)
         {
+            <!-- update the repository -->
             await Repository.Update(Partner);
+
+            <!-- after database has updatedbring user back to home page -->
             Navigation.NavigateTo("/");
         }
-        
+
     }
 
 

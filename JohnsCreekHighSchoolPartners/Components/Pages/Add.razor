@@ -7,37 +7,57 @@
 <div class="addForm">
     <div class="row justify-content-center">
         <div class="col-6">
+
+            <!-- using edit form method to get information to add to our database -->
             <EditForm method="post" FormName="AddPartner" OnValidSubmit="AddPartna" Model="Partner" autocomplete="off">
                 <div class="addFormWrapper">
+
+                    <!-- page title -->
                     <h1>Add New Partner</h1>
                     <div class="mb-3">
                         <label for="name" class="label">Company Name</label>
+
+                        <!-- user input -->
                         <InputText id="name" @bind-Value="Partner.Name" class="form-control shadow-none" />
                     </div>
                     <div class="mb-3">
                         <label for="description" class="label">Description</label>
+
+                        <!-- user input -->
                         <InputText id="description" @bind-Value="Partner.Description" class="form-control shadow-none" />
                     </div>
                     <div class="mb-3">
                         <label for="inDate" class="label">Signing Date</label>
+
+                        <!-- user input -->
                         <InputDate id="inDate" @bind-Value="Partner.SigningDate" class="form-control shadow-none" />
                     </div>
                     <div class="mb-3">
                         <label for="outDate" class="label">Closing Date</label>
+
+                        <!-- user input -->
                         <InputDate id="outDate" @bind-Value="Partner.ClosingDate" class="form-control shadow-none" />
                     </div>
                     <div class="mb-3">
                         <label for="priCon" class="label">Primary Contact</label>
+
+                        <!-- user input -->
                         <InputText id="priCon" @bind-Value="Partner.ContactPrimary" class="form-control shadow-none" />
                     </div>
                     <div class="mb-3">
                         <label for="secCon" class="label">Secondary Contact</label>
+
+                        <!-- user input -->
                         <InputText id="secCon" @bind-Value="Partner.ContactSecondary" class="form-control shadow-none" />
                     </div>
                     <div class="mb-3">
                         <label for="CompanyType" class="label">Type of Company</label>
+
+                        <!-- user chooses between options -->
                         <InputSelect id="CompanyType" @bind-Value="Partner.Category" class="form-control shadow-none">
-                            <option value="0"> Select Company Type</option>
+
+
+                            <!-- looping through each enum in the category file -->
                             @foreach (var comType in Enum.GetValues(typeof(Category)))
                             {
                                 <option value="@comType">
@@ -47,6 +67,7 @@
                         </InputSelect>
                     </div>
 
+                    <!-- button for the user to commit to adding the partner to the database -->
                     <div class="addBtn">
                         <button class="btn btn-primary">
                             Add
@@ -64,6 +85,7 @@
 
 @code {
 
+    //New partner
     [SupplyParameterFromForm]
     public Partner Partner { get; set; } = new();
 
@@ -71,7 +93,8 @@
     private async Task AddPartna()
     {
         await Repository.Create(Partner);
-        Navigation.NavigateTo("/");
 
+        <!-- after the user is done adding to the db bring user to home screen -->
+        Navigation.NavigateTo("/");
     }
 }

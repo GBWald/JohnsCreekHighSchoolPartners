@@ -1,26 +1,17 @@
-﻿* {
+﻿/*the entire page*/
+* {
     padding: 0;
     margin: 0;
     font-family: monospace;
-    
 }
 
+/*top of the page but under the top menu*/
 .top {
     display: flex;
     margin-bottom: 10px;
 }
 
-.search {
-}
-
+/*sort function pushed to the right side*/
 .sorter {
-
-   margin-left: 150px;
-
+    margin-left: 150px;
 }
-
-
-
-
-
-
